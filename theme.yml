@@ -2,7 +2,7 @@
 # See https://github.com/gohugoio/hugoThemes#themetoml for an example
 
 name: "Hugo Bootstrap Shortcodes"
-license: "MIT"
+license: "LGPLv3.0+"
 licenselink: "https://github.com/MaFeLP/hugo-bootstrap-shortcodes/blob/master/LICENSE"
 description: "A collection of useful shortcodes for use with Bootstrap 5"
 homepage: "https://github.com/MaFeLP/hugo-bootstra-shortcodes"

@@ -6,9 +6,6 @@ theme:
   - 'hugo-bootstrap-shortcodes'
 
 module:
-  imports:
-#    path: "github.com/gohugoio/hugo-mod-bootstrap-scss/v5"
-    hugo-bootstrap-shortcodes: '..'
   mounts:
     - source: 'assets'
       target: 'assets'
