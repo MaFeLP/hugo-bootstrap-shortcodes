@@ -1,0 +1,7 @@
+/.hugo_build.lock
+/public/
+/resources/_gen/
+/exampleSite/.hugo_build.lock
+/exampleSite/public/
+/exampleSite/resources/_gen/
+

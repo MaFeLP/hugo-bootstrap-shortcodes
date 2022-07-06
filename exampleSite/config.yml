@@ -1,0 +1,18 @@
+baseURL: 'http://example.org/'
+languageCode: 'en-us'
+title: 'My New Hugo Site'
+
+theme:
+  - 'hugo-bootstrap-shortcodes'
+
+module:
+  imports:
+#    path: "github.com/gohugoio/hugo-mod-bootstrap-scss/v5"
+    hugo-bootstrap-shortcodes: '..'
+  mounts:
+    - source: 'assets'
+      target: 'assets'
+    - source: 'assets/sass'
+      target: 'assets/sass'
+    - source: 'assets/fonts'
+      target: 'assets/fonts'

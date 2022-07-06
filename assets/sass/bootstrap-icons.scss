@@ -1,0 +1,6 @@
+$bootstrap-icons-font: "bootstrap-icons" !default;
+{{ $font1 := resources.Get "fonts/bootstrap-icons.woff2" | fingerprint }}
+{{ $font2 := resources.Get "fonts/bootstrap-icons.woff" | fingerprint }}
+$bootstrap-icons-font-src: url('{{ $font1.RelPermalink }}') format("woff2"), url('{{ $font2.RelPermalink }}') format("woff") !default;
+
+@import "_bootstrap_icons_pre";
