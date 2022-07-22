@@ -1,0 +1,64 @@
+{{/*- Set default values -*/}}
+{{- $color := "" -}}
+{{- $hover := "" -}}
+{{- $stripes := "" -}}
+{{- $small := "" -}}
+{{- $divider := false -}}
+{{- $responsive := false -}}
+{{- $border := "" -}}
+{{- $escape := false -}}
+
+{{/*- Map the parameters to their corresponding option -*/}}
+{{- $colorOptions := slice "primary" "secondary" "success" "danger" "warning" "info" "light" "dark" -}}
+{{- $stripeOptions := slice "striped" "striped_columns" -}}
+{{- $borderOptions := slice "bordered" "borderless" -}}
+{{- range .Params -}}
+    {{- if in $colorOptions . -}}
+        {{- $color = printf "table-%s" . -}}
+    {{- else if eq . "hover" -}}
+        {{ $hover = "table-hover" -}}
+    {{- else if in $stripeOptions . -}}
+        {{- $stripes = printf "table-%s" . -}}
+    {{- else if eq . "small" -}}
+        {{- $small = "table-sm" -}}
+    {{- else if eq . "divider" -}}
+        {{- $divider = true -}}
+    {{- else if eq . "responsive" -}}
+        {{- $responsive = true -}}
+    {{- else if in $borderOptions . -}}
+        {{- $border = printf "table-%s" . -}}
+    {{- else if eq . "responsive" -}}
+        {{- $responsive = true -}}
+    {{- else if eq . "escape" -}}
+        {{- $escape = true -}}
+    {{ else }}
+        {{ errorf "Unknown option to shortcode 'table': " . }}
+    {{- end -}}
+{{- end -}}
+
+{{/* Assemble all the classes to one string */}}
+{{- $classes := "table" -}}
+{{- range slice $color $hover $stripes $small $border -}}
+    {{- $classes = printf "%s %s" $classes . -}}
+{{- end -}}
+
+{{/*- Build the table -*/}}
+{{- $cont := .Inner -}}
+{{- if $escape -}}
+    {{- $cont = $cont | htmlEscape | markdownify | htmlUnescape -}}
+{{- else -}}
+    {{- $cont = $cont | markdownify -}}
+{{- end -}}
+
+{{- $cont = replace $cont "<table>" (printf "<table class=\"%s\">" $classes) -}}
+{{- $cont = replace $cont "<th>" "<th scope=\"col\">" -}}
+{{- $cont = replaceRE "</i>( \n)*" "</i>" $cont -}}
+{{- if $divider -}}
+    {{- $cont = replace $cont "<tbody>" "<tbody class=\"table-group-divider\">" -}}
+{{- end -}}
+{{- if $responsive -}}
+    {{- $cont = printf "<div class=\"table-responsive\">%s</div>" $cont -}}
+{{- end -}}
+
+{{ $cont | safeHTML }}
+
