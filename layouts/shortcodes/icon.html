@@ -1,0 +1,5 @@
+{{- $name := .Get 0 -}}
+{{- $size := default "" (.Get 1) -}}
+{{- $color := default "" (.Get 2) -}}
+<i class="bi-{{ $name }}" style="{{ if not (or (eq $size "") (eq $size "default")) }}font-size: {{ $size }};{{ end }} {{ if not (eq $color "") }}color: {{ $color }};{{ end }}"></i>
+
