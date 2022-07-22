@@ -68,6 +68,20 @@ Icons inherit their color from their parent: {{</* icon newspaper */>}}
 
 Icons also work in tables:
 
+{{< table warning striped hover escape >}}
+| Name | Icon |
+| --- | --- |
+| `person-circle` | {{< icon person-circle >}} |
+| `pen-fill` | {{< icon pen-fill >}} |
+| `qr-code` | {{< icon qr-code >}} |
+{{</ table >}}
+
 ```markdown
-Test
+{{</* table warning striped hover escape*/>}}
+| Name | Icon |
+| --- | --- |
+| `person-circle` | {{</* icon person-circle */>}} |
+| `pen-fill` | {{</* icon pen-fill */>}} |
+| `qr-code` | {{</* icon qr-code */>}} |
+{{</*/ table */>}}
 ```
