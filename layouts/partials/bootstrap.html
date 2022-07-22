@@ -1,7 +1,10 @@
-<!-- Begin Bootstrap Import -->
     {{- /* Load Bootstrap CSS */ -}}
     {{- $options := (dict "targetPath" "css/bootstrap.css" "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)) -}}
-    {{ $bootstrapcss := resources.Get "sass/bootstrap/bootstrap.scss" | resources.ToCSS $options | fingerprint }}
+	{{- $BootstrapCSSResource := resources.Get "sass/bootstrap.scss" -}}
+	{{- if (not $BootstrapCSSResource) -}}
+	  {{- $BootstrapCSSResource = resources.Get "sass/bootstrap/bootstrap.scss" -}}
+    {{- end -}}
+    {{ $bootstrapcss := $BootstrapCSSResource | resources.ToCSS $options | fingerprint }}
     <link rel="stylesheet" href="{{ $bootstrapcss.RelPermalink }}" integrity="{{ $bootstrapcss.Data.Integrity }}">
 
     {{- /* Load Bootstrap JS */ -}}
