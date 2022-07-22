@@ -1,3 +1,51 @@
-<div class="alert alert-{{ .Get 0 }}">
-    {{ .Inner }}
+{{ $type := .Get 0 }}
+
+{{/* Check if icon or dismiss options were specified */}}
+{{- $icon := false -}}
+{{- $dismiss := false -}}
+{{- $escape := false -}}
+{{- range .Params -}}
+    {{- if eq . "icon" -}}
+        {{- $icon = true -}}
+    {{- else if eq . "dismiss" -}}
+        {{- $dismiss = true -}}
+    {{- else if eq . "escape" -}}
+        {{- $escape = true -}}
+    {{- end -}}
+{{- end -}}
+
+<div class="alert alert-{{ $type }}{{ if $icon }} d-flex align-items-center{{ end }}{{ if $dismiss }} alert-dismissible fade show{{ end }}" role="alert">
+    {{- if $icon -}}
+        {{- $iconName := "" -}}
+        {{- if eq $type "success" -}}
+            {{- $iconName = "check-circle-fill" -}}
+        {{- else if or (eq $type "warning") (eq $type "danger") -}}
+            {{- $iconName = "exclamation-triangle-fill" -}}
+        {{- else -}}
+            {{- $iconName = "info-circle-fill" -}}
+        {{- end -}}
+        <i class="bi-{{ $iconName }} flex-shrink-0 me-2"></i>
+    {{- end -}}
+    {{- $cont := .Inner -}}
+    {{- if $escape -}}
+        {{- $cont = $cont | htmlEscape | markdownify | htmlUnescape -}}
+    {{- else -}}
+        {{- $cont = $cont | markdownify -}}
+    {{- end -}}
+
+    {{/* replace links inside this alert to have the correct color */}}
+    {{- $cont = $cont | replaceRE "<a href=\"(.+)\"(.*)>(.+)</a>" "<a class=\"alert-link\" href=\"$1\" $2>$3</a>" -}}
+
+    {{- $cont = $cont | replaceRE "<h1 id=\"(.+)\">(.+)</h1>" "<h4 class=\"alert-heading\" id=\"$1\">$2</h4>" -}}
+
+    {{/* Markdownify generates safe HTML and the replacements as well */}}
+    {{- $cont = $cont | safeHTML }}
+	<div>
+        {{ $cont -}}
+
+        {{- if $dismiss }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{- end }}
+    </div>
 </div>
+
