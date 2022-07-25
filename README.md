@@ -25,7 +25,7 @@ source = 'assets'
 target = 'assets'
 [[module.mounts]]
 source = 'assets/sass'
-target = 'assets/sss'
+target = 'assets/sass'
 [[module.mounts]]
 source = 'assets/fonts'
 target = 'assets/fonts'
