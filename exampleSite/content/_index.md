@@ -1,3 +1,7 @@
+---
+title: "Home"
+---
+
 # hugo-bootstrap-shortcodes
 
 This hugo theme makes it really easy to use any bootstrap components!
