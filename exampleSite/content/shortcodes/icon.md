@@ -1,5 +1,6 @@
 ---
 title:  "Icons"
+summary: "Embed icons into your text/elements"
 ---
 
 Icons can very easily be used with the `icon` shortcode:

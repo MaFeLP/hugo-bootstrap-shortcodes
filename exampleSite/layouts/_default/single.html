@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }} | hugo-bootstrap-shortcodes Documentation</title>
+    <title>{{ .Title }} | {{ .Site.Title }}</title>
     {{- partial "bootstrap" -}}
     {{- $copyToClipboardJS := resources.Get "/js/copy_to_clipboard.js" | fingerprint -}}
     <script defer src="{{ $copyToClipboardJS.RelPermalink }}" integrity="{{ $copyToClipboardJS.Data.Integrity }}"></script>

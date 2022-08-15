@@ -1,5 +1,6 @@
 ---
 title:  "Tables"
+summary: "Beautify markdown tables"
 ---
 
 Normal markdown tables look a bit boring:

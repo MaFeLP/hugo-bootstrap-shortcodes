@@ -1,5 +1,6 @@
 ---
 title: "Carousel"
+summary: "A slideshow of pictures: Displays multiple pictures in one place"
 ---
 
 Carousels are `slideshows` which can display multiple images

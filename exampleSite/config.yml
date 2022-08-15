@@ -1,6 +1,6 @@
-baseURL: 'http://example.org/'
+baseURL: 'https://mafelp.github.io/hugo-bootstrap-shortcodes/'
 languageCode: 'en-us'
-title: 'My New Hugo Site'
+title: 'hugo-bootstrap-shortcodes Documentation'
 
 theme:
   - 'hugo-bootstrap-shortcodes'

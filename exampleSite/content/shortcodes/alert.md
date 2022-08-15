@@ -1,5 +1,6 @@
 ---
 title:  "Alerts"
+summary: "A small and colored box to embed into your site to attract the users attention"
 ---
 
 An alert can be embedded as follows:
