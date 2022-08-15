@@ -4,6 +4,7 @@ This hugo theme makes it really easy to use any bootstrap components!
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Overview of the shortcodes]({{< relref "shortcodes/_index.md" >}})
 
 ---
 
