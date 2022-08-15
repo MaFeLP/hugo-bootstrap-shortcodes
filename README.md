@@ -11,7 +11,13 @@ Add this repository as a submodule to your themes folder:
 
 ```bash
 git submodule add https://github.com/MaFeLP/hugo-bootstrap-shortcodes themes/hugo-bootstrap-shortcodes
+git submodule foreach git submodule init
 git submodule update --recursive
+```
+
+Or just clone the repository into your themes folder:
+```bash
+git clone --recursive https://github.com/MaFeLP/hugo-bootstrap-shortcodes themes/hugo-boostrap-shortcodes
 ```
 
 Add the following to your `config.toml`.

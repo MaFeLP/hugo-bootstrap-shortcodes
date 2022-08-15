@@ -18,6 +18,7 @@ themes folder:
 
 ```bash
 git submodule add https://github.com/MaFeLP/hugo-bootstrap-shortcodes themes/hugo-bootstrap-shortcodes
+git submodule foreach git submodule init
 git submodule update --recursive
 ```
 
