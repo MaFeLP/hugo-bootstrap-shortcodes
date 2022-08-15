@@ -1,4 +1,5 @@
     {{- /* Load Bootstrap CSS */ -}}
+    {{- if default true .css -}}
     {{- $options := (dict "targetPath" "css/bootstrap.css" "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)) -}}
 	{{- $BootstrapCSSResource := resources.Get "sass/bootstrap.scss" -}}
 	{{- if (not $BootstrapCSSResource) -}}
@@ -6,15 +7,20 @@
     {{- end -}}
     {{ $bootstrapcss := $BootstrapCSSResource | resources.ToCSS $options | fingerprint }}
     <link rel="stylesheet" href="{{ $bootstrapcss.RelPermalink }}" integrity="{{ $bootstrapcss.Data.Integrity }}">
+    {{- end -}}
 
     {{- /* Load Bootstrap JS */ -}}
+    {{- if default true .js -}}
     {{- $downloadedBootstrapJS := resources.GetRemote "https://raw.githubusercontent.com/twbs/bootstrap/main/dist/js/bootstrap.bundle.min.js" -}}
 	{{ $bootstrapjs := $downloadedBootstrapJS | resources.Copy "js/bootstrap.bundle.min.js" | fingerprint }}
     <script defer src="{{ $bootstrapjs.RelPermalink }}" integrity="{{ $bootstrapjs.Data.Integrity }}"></script>
+    {{- end -}}
 
     {{- /* Load Bootstrap Icons font */ -}}
+    {{- if default true .icons -}}
     {{- $options := (dict "targetPath" "css/bootstrap-icons.css" "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)) -}}
 	{{- $bootstrapIconsTemplate := resources.Get "sass/bootstrap-icons.scss" -}}
     {{ $bootstrapicons := $bootstrapIconsTemplate | resources.ExecuteAsTemplate "bootstrap-icon.scss" . | resources.ToCSS $options | fingerprint }}
     <link rel="stylesheet" href="{{ $bootstrapicons.RelPermalink }}" integrity="{{ $bootstrapicons.Data.Integrity }}">
+    {{- end -}}
 
