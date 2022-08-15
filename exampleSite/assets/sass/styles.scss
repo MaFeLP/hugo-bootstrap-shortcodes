@@ -157,3 +157,23 @@ footer {
     color: #444
   }
 }
+
+.carousel-item {
+    img {
+        max-height: 90vh;
+    }
+
+    .placeholder {
+        height: 50vh;
+    }
+
+    .carousel-caption {
+        h5 {
+            color: red;
+        }
+
+        p {
+            color: greenyellow;
+        }
+    }
+}

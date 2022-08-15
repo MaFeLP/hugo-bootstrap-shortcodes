@@ -1,0 +1,100 @@
+{{/*
+    Easily create a bootstrap carousel (https://getbootstrap.com/docs/5.2/components/carousel/)
+
+    @author MaFeLP
+
+    @context none
+
+    @access public
+
+    @example - Go Template
+        {{< carousel "no_indicators" "no_controls" "dark" "fade" "escape" >}}
+        - ![Slide 1](/img/slide_one_asset.png) And also a small description
+        - ![Slide 2](/img/slide_two_asset.png) and also a small descripton
+        - ![Slide 3](/img/slide_three_asset.png) Can be different on all slides
+        {{</carousel>}}
+*/}}
+
+{{- $carousel_id := replaceRE "[0-9]" "" (sha256 .Inner) }}
+
+{{- $indicators := true -}}
+{{- $controls := true -}}
+{{- $escape := false -}}
+
+{{- $classes := "carousel slide " -}}
+{{/*- Map the parameters to their corresponding option -*/}}
+{{- range .Params -}}
+    {{- if eq . "dark" -}}
+        {{- $classes = printf "%s %s" $classes "carousel-dark" -}}
+    {{- else if eq . "fade" -}}
+        {{- $classes = printf "%s %s" $classes "carousel-fade" -}}
+    {{- else if eq . "no_indicators" -}}
+        {{- $indicators = false -}}
+    {{- else if eq . "no_controls" -}}
+        {{- $controls = false -}}
+    {{- else if eq . "escape" -}}
+        {{- $escape = true -}}
+    {{ else }}
+        {{ errorf "Unknown option to shortcode 'carousel': " . }}
+    {{- end -}}
+{{- end -}}
+
+<div id="{{ $carousel_id }}" class="{{ $classes }}" data-bs-ride="true">
+  <div class="carousel-inner">
+    {{- $slide := 0 -}}
+    {{- $headings := slice -}}
+    {{- range split .Inner "\n-" -}}
+      {{- with . -}}
+        {{/* Escape the content if the argument was passed */}}
+        {{- $cont := . -}}
+        {{- if $escape -}}
+            {{- $cont = $cont | htmlEscape | markdownify | htmlUnescape -}}
+        {{- else -}}
+            {{- $cont = $cont | markdownify -}}
+        {{- end }}
+        {{/* Create the item. The **first** slice needs to have the class 'active' */}}
+        <div class="carousel-item{{ if eq $slide 0 }} active{{ end }}">
+          {{/* If an image was given, extract it and make it background */}}
+          {{- $results := findRE "<img src=\"(.*?)\" alt=\"(.*?)\">" $cont 1 -}}
+          {{- $img := delimit $results "" -}}
+          {{- $src := replaceRE "<img src=\"(.*?)\" alt=\"(.*?)\">" "$1" $img -}}
+          {{- if or (eq $src "...") (eq $src "") -}}
+            <span class="placeholder placeholder-lg w-100 carousel-placeholder"></span>
+          {{ else -}}
+            {{ replace $img ">" " class=\"d-block w-100 carousel-img\">" | safeHTML }}
+          {{ end -}}
+          {{/* Remove the image tag from the caption */}}
+          {{- $cont = replace $cont $img "" -}}
+          <div class="carousel-caption d-none d-md-block">
+            {{/* Get the 'alt' description from the image as the heading of this slide */}}
+            {{- $heading := replaceRE "<img src=\"(.*?)\" alt=\"(.*?)\">" "$2" $img -}}
+            {{- $headings = $headings | append $heading -}}
+            <h5 class="carousel-caption-heading">{{ $heading }}</h5>
+            {{/* Make the rest of the content the description of this slide */}}
+            <p class="carousel-caption-description">{{ $cont | safeHTML }}</p>
+          </div>
+        </div>
+        {{- $slide = add $slide 1 -}}
+      {{- end -}}
+    {{- end }}
+  </div>
+
+  {{ if $indicators -}}
+    <div class="carousel-indicators">
+    {{ range $idx, $val := $headings -}}
+      <button type="button" data-bs-target="#{{ $carousel_id }}" data-bs-slide-to="{{ $idx }}"{{ if eq $idx 0 }} class="active" aria-current="true"{{ end }} aria-label="{{ $val }}"></button>
+    {{ end -}}
+    </div>
+  {{- end }}
+
+  {{ if $controls -}}
+    <button class="carousel-control-prev" type="button" data-bs-target="#{{ $carousel_id }}" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#{{ $carousel_id }}" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  {{- end }}
+</div>
