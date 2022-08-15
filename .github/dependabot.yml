@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: "gitsubmodule"
+    directory: "/submodules"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "MaFeLP"
+    reviewers:
+      - "MaFeLP"
+    commit-message:
+      prefix: "Submodule"
+      include: "scope"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "MaFeLP"
+    reviewers:
+      - "MaFeLP"
+    commit-message:
+      prefix: "GitHub Actions"
+      include: "scope"
