@@ -39,6 +39,8 @@
     {{- end -}}
 {{- end -}}
 
+{{- $page := .Page -}}
+
 <div id="{{ $carousel_id }}" class="{{ $classes }}" data-bs-ride="true" style="margin-bottom: 1rem;">
   <div class="carousel-inner">
     {{- $slide := 0 -}}
@@ -58,10 +60,20 @@
           {{- $results := findRE "<img src=\"(.*?)\" alt=\"(.*?)\">" $cont 1 -}}
           {{- $img := delimit $results "" -}}
           {{- $src := replaceRE "<img src=\"(.*?)\" alt=\"(.*?)\">" "$1" $img -}}
+          {{- $orientation := "img-orientation-unknown" -}}
+          {{- with $page.Resources.GetMatch $src -}}
+            {{- if lt .Width .Height -}}
+              {{- $orientation = "img-portrait" -}}
+            {{- else -}}
+              {{- $orientation = "img-landscape" -}}
+            {{- end -}}
+          {{- else -}}
+            {{- warnf "Couldn't get image '%s' in '%s'" $src $page.File -}}
+          {{- end -}}
           {{- if or (eq $src "...") (eq $src "") -}}
             <span class="placeholder placeholder-lg w-100 carousel-placeholder"></span>
           {{ else -}}
-            {{ replace $img ">" " class=\"d-block w-100 carousel-img\">" | safeHTML }}
+            {{ replace $img ">" (printf " class=\"d-block w-100 carousel-img %s\">" $orientation) | safeHTML }}
           {{ end -}}
           {{/* Remove the image tag from the caption */}}
           {{- $cont = replace $cont $img "" -}}
