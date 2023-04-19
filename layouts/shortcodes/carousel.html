@@ -60,24 +60,24 @@
           {{- $results := findRE "<img src=\"(.*?)\" alt=\"(.*?)\">" $cont 1 -}}
           {{- $img := delimit $results "" -}}
           {{- $src := replaceRE "<img src=\"(.*?)\" alt=\"(.*?)\">" "$1" $img -}}
-          {{- $orientation := "img-orientation-unknown" -}}
+          {{- $orientation := "orientation-unknown" -}}
           {{- with $page.Resources.GetMatch $src -}}
             {{- if lt .Width .Height -}}
-              {{- $orientation = "img-portrait" -}}
+              {{- $orientation = "portrait" -}}
             {{- else -}}
-              {{- $orientation = "img-landscape" -}}
+              {{- $orientation = "landscape" -}}
             {{- end -}}
           {{- else -}}
             {{- warnf "Couldn't get image '%s' in '%s'" $src $page.File -}}
           {{- end -}}
           {{- if or (eq $src "...") (eq $src "") -}}
-            <span class="placeholder placeholder-lg w-100 carousel-placeholder"></span>
+            <span class="placeholder placeholder-lg carousel-placeholder"></span>
           {{ else -}}
-            {{ replace $img ">" (printf " class=\"d-block w-100 carousel-img %s\">" $orientation) | safeHTML }}
+            {{ replace $img ">" (printf " class=\"carousel-img %s\">" $orientation) | safeHTML }}
           {{ end -}}
           {{/* Remove the image tag from the caption */}}
           {{- $cont = replace $cont $img "" -}}
-          <div class="carousel-caption d-none d-md-block">
+          <div class="carousel-caption">
             {{/* Get the 'alt' description from the image as the heading of this slide */}}
             {{- $heading := replaceRE "<img src=\"(.*?)\" alt=\"(.*?)\">" "$2" $img -}}
             {{- $headings = $headings | append $heading -}}
